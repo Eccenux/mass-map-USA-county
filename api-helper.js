@@ -4,23 +4,18 @@ const FormData = require('form-data');
 
 const { USERNAME, PASSWORD } = require('./bot.config');
 const API_URL = 'https://commons.wikimedia.org/w/api.php';
-const FILE_PATH = 'Map_of_New_York.svg'; // Change to your file path
 
 async function login() {
-	const response = await fetch(API_URL, {
-		method: 'POST',
-		body: new URLSearchParams({
-			action: 'login',
+	const response = await fetch(API_URL + '?' + new URLSearchParams({
+			action: 'query',
 			meta: 'tokens',
 			type: 'login',
 			format: 'json'
 		}),
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded'
-		}
-	});
+	);
 	const data = await response.json();
 	const loginToken = data.query.tokens.logintoken;
+	const cookie = response.headers.get('set-cookie');
 
 	const loginResponse = await fetch(API_URL, {
 		method: 'POST',
@@ -32,12 +27,19 @@ async function login() {
 			format: 'json'
 		}),
 		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded'
+			Cookie: cookie,
+			'Content-Type': 'application/x-www-form-urlencoded',
 		}
 	});
 
 	const loginData = await loginResponse.json();
-	const cookie = loginResponse.headers.get('set-cookie');
+	if (loginData?.login?.result === 'Success') {
+		console.log(`Auth as ${USERNAME} succesfull.`);
+	} else {
+		console.error(`Auth as ${USERNAME} failed.`, JSON.stringify(loginData));
+		throw "Failed auth";
+	}
+	// const cookie = loginResponse.headers.get('set-cookie');
 	return { loginToken, cookie };
 }
 
@@ -64,11 +66,11 @@ async function fileExists(commonsName, cookie) {
 	return !pages.hasOwnProperty("-1");
 }
 
-async function uploadFile(commonsName, csrfToken, cookie) {
+async function uploadFile(commonsName, filePath, csrfToken, cookie) {
 	const form = new FormData();
 	form.append('action', 'upload');
 	form.append('filename', commonsName);
-	form.append('file', fs.createReadStream(FILE_PATH));
+	form.append('file', fs.createReadStream(filePath));
 	form.append('token', csrfToken);
 	form.append('format', 'json');
 	form.append('ignorewarnings', '1');
