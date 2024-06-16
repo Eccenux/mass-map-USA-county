@@ -6,13 +6,13 @@ const { USERNAME, PASSWORD } = require('./bot.config');
 const API_URL = 'https://commons.wikimedia.org/w/api.php';
 
 async function login() {
-	const response = await fetch(API_URL + '?' + new URLSearchParams({
-			action: 'query',
-			meta: 'tokens',
-			type: 'login',
-			format: 'json'
-		}),
-	);
+	let url = API_URL + '?' + new URLSearchParams({
+		action: 'query',
+		meta: 'tokens',
+		type: 'login',
+		format: 'json'
+	});
+	const response = await fetch(url);
 	const data = await response.json();
 	const loginToken = data.query.tokens.logintoken;
 	const cookie = response.headers.get('set-cookie');
@@ -44,7 +44,12 @@ async function login() {
 }
 
 async function getCsrfToken(cookie) {
-	const response = await fetch(`${API_URL}?action=query&meta=tokens&type=csrf&format=json`, {
+	let url = API_URL + '?' + new URLSearchParams({
+		action: "query",
+		meta: "tokens",
+		format: "json"
+	});
+	const response = await fetch(url, {
 		method: 'GET',
 		headers: {
 			Cookie: cookie
@@ -69,20 +74,28 @@ async function fileExists(commonsName, cookie) {
 async function uploadFile(commonsName, filePath, csrfToken, cookie) {
 	const form = new FormData();
 	form.append('action', 'upload');
+	form.append('format', 'json');
 	form.append('filename', commonsName);
 	form.append('file', fs.createReadStream(filePath));
 	form.append('token', csrfToken);
-	form.append('format', 'json');
 	form.append('ignorewarnings', '1');
 
-	const response = await fetch(API_URL, {
+	let url = API_URL + '?' + new URLSearchParams({
+		// token: csrfToken,
+		action: "upload",
+		format: "json"
+	});
+
+	const headers = Object.assign({
+		Cookie: cookie,
+	}, form.getHeaders());
+
+	const response = await fetch(url, {
 		method: 'POST',
 		body: form,
-		headers: {
-			Cookie: cookie
-		}
+		headers,
 	});
-	const data = await response.json();
+	const data = await response.text();
 	console.log(data);
 }
 
