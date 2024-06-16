@@ -1,25 +1,29 @@
 const fs = require('fs');
-const path = require('path');
 
-function replaceUseHref(filePath, id) {
-	fs.readFile(filePath, 'utf8', (err, data) => {
-		if (err) {
-			console.error(`Error reading file: ${err}`);
-			return;
+const regex = /<use xlink:href="#([^"]+)" stroke="none" fill="red" \/>/;
+
+function replaceUseHref(filePath, newId) {
+	const data = fs.readFileSync(filePath, 'utf8');
+
+	let replacement = `<use xlink:href="#${newId}" stroke="none" fill="red" />`;
+	let ok = false;
+	const result = data.replace(regex, (a, matchedId) => {
+		if (newId === matchedId) {
+			ok = true;
+			return a;
 		}
-
-		const regex = new RegExp(`<use xlink:href="#${id}" stroke="none" fill="red" />`, 'g');
-		const replacement = `<use href="#${id}" stroke="none" fill="red" />`;
-		const result = data.replace(regex, replacement);
-
-		fs.writeFile(filePath, result, 'utf8', (err) => {
-			if (err) {
-				console.error(`Error writing file: ${err}`);
-			} else {
-				console.log('File updated successfully');
-			}
-		});
+		if (replacement != a) {
+			ok = true;
+			return replacement;
+		}
+		console.warn("Very weird", {a, matchedId, replacement});
+		return a;
 	});
+	if (!ok) {
+		throw "Replace failed";
+	}
+
+	fs.writeFileSync(filePath, result, 'utf8');
 }
 
 module.exports = {

@@ -9,11 +9,7 @@ const { replaceUseHref } = require("./ny_replace");
 
 let api = new MwApi(apiUrl);
 
-// TODO:
-// When missing add to missing list.
-// Finally dump list of missing files.
-// Show stats: missing count, uploaded count.
-
+/**/
 (async () => {
 	try {
 		// estabilish session
@@ -52,4 +48,19 @@ let api = new MwApi(apiUrl);
 			break;
 		}
 	}
+	// When missing add to missing list.
+	// Finally dump list of missing files.
+	// Show stats: missing count, uploaded count.
 })();
+/**
+
+ids = [
+	"Allegany",
+	"Albany",
+]		
+let srcFilePath = 'img/Map_of_New_York.svg';
+for (const id of ids) {
+	// Change current id in `<use xlink:href="#Rensselaer" stroke="none" fill="red" />`
+	replaceUseHref(srcFilePath, id);
+}
+/**/
