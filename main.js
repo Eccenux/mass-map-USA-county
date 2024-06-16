@@ -1,11 +1,14 @@
-// const { login, getCsrfToken, fileExists, uploadFile } = require("./api-helper");
-
+/**
+ * Upload multiple maps with a highlighted element.
+ * 
+ * This assumes you can highlight an element by id.
+ */
 const { MwApi } = require("./mw-api");
 
 const apiUrl = 'https://commons.wikimedia.org/w/api.php';
 const { USERNAME, PASSWORD } = require('./bot.config');
-let { ids } = require("./img/ny_ids");
-const { replaceUseHref } = require("./ny_replace");
+let { counties } = require("./img/usa_ids");
+const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);
 
@@ -25,11 +28,11 @@ let api = new MwApi(apiUrl);
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
 	let missing = [];
-	// ids = [
+	// counties = [
 	// 	"Albany",
 	// 	"Allegany",
 	// ]		
-	for (const id of ids) {
+	for (const id of counties) {
 		let destFileName = destFileTemplate(id);
 		try {
 			// If exists upload new file as `Map_of_New_York_highlighting_${id}_County.svg`
@@ -58,17 +61,17 @@ let api = new MwApi(apiUrl);
 		});
 	}
 	// Show stats: missing count, uploaded count.
-	let other = ids.length - done.length - missing.length;
+	let other = counties.length - done.length - missing.length;
 	console.info(`Uploaded: ${done.length}; missing: ${missing.length}; other: ${other}`);
 })();
 /**
 
-ids = [
+counties = [
 	"Allegany",
 	"Albany",
 ]		
 let srcFilePath = 'img/Map_of_New_York.svg';
-for (const id of ids) {
+for (const id of counties) {
 	// Change current id in `<use xlink:href="#Rensselaer" stroke="none" fill="red" />`
 	replaceUseHref(srcFilePath, id);
 }
