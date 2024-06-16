@@ -1,16 +1,15 @@
-{
-  "name": "mass-map-usa-county",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "type": "commonjs",
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "form-data": "^4.0.0",
-    "node-fetch": "2.x"
-  }
+	{
+	"name": "mass-map-usa-county",
+	"version": "1.0.0",
+	"description": "Mass upload modified maps.",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"type": "commonjs",
+	"author": "Maciej Nux Jaros",
+	"license": "MIT",
+	"dependencies": {
+		"request": "^2.88.2"
+	}
 }
