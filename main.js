@@ -23,24 +23,26 @@ let api = new MwApi(apiUrl);
 	let destFileTemplate = (id)=>`Map_of_New_York_highlighting_${id}_County.svg`;
 
 	// Loop over named ids in the map (or maybe predefined list...).
-	ids = [
-		"Albany",
-		"Allegany",
-	]		
+	let done = [];
+	let missing = [];
+	// ids = [
+	// 	"Albany",
+	// 	"Allegany",
+	// ]		
 	for (const id of ids) {
 		let destFileName = destFileTemplate(id);
 		try {
 			// If exists upload new file as `Map_of_New_York_highlighting_${id}_County.svg`
 			if (await api.fileExists(destFileName)) {
 				// Change current id in `<use xlink:href="#Rensselaer" stroke="none" fill="red" />`
-				let result = replaceUseHref(srcFilePath, id);
-				if (!result) {
-					throw "Unable to replace";
-				}
-				// await api.upload(srcFilePath, destFileName, summary);
+				replaceUseHref(srcFilePath, id);
+				await api.upload(srcFilePath, destFileName, summary);
 				console.log(`File uploaded as: ${destFileName}.`);
+				done.push({id, destFileName});
 			} else {
+				// When missing add to missing list.
 				console.warn(`File:${destFileName} does not exist on Commons.`);
+				missing.push({id, destFileName});
 			}
 		} catch (error) {
 			console.error(`Unable to upload File:${destFileName}.`, error);
@@ -48,9 +50,16 @@ let api = new MwApi(apiUrl);
 			break;
 		}
 	}
-	// When missing add to missing list.
 	// Finally dump list of missing files.
+	if (missing.length) {
+		console.warn("Missing:");
+		missing.forEach((item) => {
+			console.warn(item);
+		});
+	}
 	// Show stats: missing count, uploaded count.
+	let other = ids.length - done.length - missing.length;
+	console.info(`Uploaded: ${done.length}; missing: ${missing.length}; other: ${other}`);
 })();
 /**
 

@@ -2,6 +2,9 @@ const fs = require('fs');
 
 const regex = /<use xlink:href="#([^"]+)" stroke="none" fill="red" \/>/;
 
+/**
+ * Replace or throw.
+ */
 function replaceUseHref(filePath, newId) {
 	const data = fs.readFileSync(filePath, 'utf8');
 
