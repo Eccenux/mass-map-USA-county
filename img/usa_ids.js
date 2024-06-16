@@ -11,7 +11,7 @@ function findIds() {
 	copy(ids);
 }
 
-const ids = [
+const counties = [
 	"Autauga",
 	"Baldwin",
 	"Barbour",
@@ -82,5 +82,5 @@ const ids = [
 ];
 
 module.exports = {
-	county_ids,
+	counties,
 };

@@ -21,9 +21,9 @@ let api = new MwApi(apiUrl);
 		console.error('Auth error.', error);
 	}
 
-	let srcFilePath = 'img/Map_of_New_York.svg';
+	let srcFilePath = 'img/Map_of_Alabama.svg';
 	let summary = "fix rendering (remove clipping)";
-	let destFileTemplate = (id)=>`Map_of_New_York_highlighting_${id}_County.svg`;
+	let destFileTemplate = (id)=>`Map_of_Alabama_highlighting_${id}_County.svg`;
 
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
@@ -35,7 +35,7 @@ let api = new MwApi(apiUrl);
 	for (const id of counties) {
 		let destFileName = destFileTemplate(id);
 		try {
-			// If exists upload new file as `Map_of_New_York_highlighting_${id}_County.svg`
+			// If exists upload new file as `Map_of_X_highlighting_${id}_County.svg`
 			if (await api.fileExists(destFileName)) {
 				// Change current id in `<use xlink:href="#Rensselaer" stroke="none" fill="red" />`
 				replaceUseHref(srcFilePath, id);
@@ -50,7 +50,7 @@ let api = new MwApi(apiUrl);
 		} catch (error) {
 			console.error(`Unable to upload File:${destFileName}.`, error);
 			// Upon error stop (at least for now).
-			break;
+			// break;
 		}
 	}
 	// Finally dump list of missing files.
