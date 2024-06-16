@@ -28,7 +28,7 @@ let api = new MwApi(apiUrl);
 			await api.upload(srcFilePath, destFileName, summary);
 			console.log(`File uploaded as: ${destFileName}.`);
 		} else {
-			console.warn(`File:${destFileName} does not exist on Commons.');
+			console.warn(`File:${destFileName} does not exist on Commons.`);
 		}
 	} catch (error) {
 		console.error('Error:', error);

@@ -4,7 +4,7 @@
     MediaWiki API Demos
     Demo of `Upload` module: Sending post request to upload a file directly.
 	Note that the `request` module is able to estabilish a session with cookies
-	(keeps cookies set byt the server in an initial request).
+	(keeps cookies set by the server in an initial request).
 
     MIT license
 */
