@@ -11,8 +11,12 @@ function findIds() {
 	copy(ids);
 }
 
+// template used for most areas
+let destFileTemplate = (id)=>`Map_of_Alaska_highlighting_${id}_Census_Area.svg`;
+
+// First group is "Census Area" (tpl above)
+// Most other are "Borough", "City and Borough".
 const counties = [
-	// Census Area
 	// "Aleutians West",
 	// "Bethel",
 	// "Dillingham",

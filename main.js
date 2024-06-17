@@ -21,9 +21,9 @@ let api = new MwApi(apiUrl);
 		console.error('Auth error.', error);
 	}
 
-	let srcFilePath = 'img/Map_of_Alabama.svg';
+	let srcFilePath = 'img/Map_of_Alaska.svg';
 	let summary = "fix rendering (remove clipping)";
-	let destFileTemplate = (id)=>`Map_of_Alabama_highlighting_${id}_County.svg`;
+	let destFileTemplate = (id)=>`Map_of_Alaska_highlighting_${id}_County.svg`;
 
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
@@ -32,8 +32,16 @@ let api = new MwApi(apiUrl);
 	// 	"Albany",
 	// 	"Allegany",
 	// ]		
-	for (const id of counties) {
-		let destFileName = destFileTemplate(id);
+	for (const county of counties) {
+		let id = '';
+		let destFileName = '';
+		if (typeof county === 'string') {
+			id = county.replace(/ /g, '_');
+			destFileName = destFileTemplate(id);
+		} else {
+			id = county.id.replace(/ /g, '_');
+			destFileName = county.destFileName;
+		}
 		try {
 			// If exists upload new file as `Map_of_X_highlighting_${id}_County.svg`
 			if (await api.fileExists(destFileName)) {
