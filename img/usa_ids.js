@@ -19,14 +19,14 @@ function whResize() {
 	var width = svg.getAttribute('width');
 	var height = svg.getAttribute('height');
 	function resize(x) {
-		return (Number.parseFloat(x) / d).toFixed(2);
+		return (Number.parseFloat(x) / divide).toFixed(2);
 	}
 	width=resize(width);
 	height=resize(height);
 	console.log(`width="${width}" height="${height}"`)
 }
 
-let stateName = 'North_Dakota';
+let stateName = 'South_Dakota';
 let srcFilePath = `img/Map_of_${stateName}.svg`;
 let destFileTemplate = (id)=>`Map_of_${stateName}_highlighting_${id}_County.svg`;
 
