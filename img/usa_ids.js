@@ -4,7 +4,9 @@
  * Skips numeric ids. The rest should be counties.
  */
 function findIds() {
-	var ids = [...document.querySelectorAll('[id]')]
+	// only children of main group
+	// `<svg> → <g stroke="black" fill="white"> → <path/g id>`
+	var ids = [...document.querySelectorAll('svg > g > [id]')]
 		.map(el=>el.id)
 		.filter(id=>id.replace(/[0-9]+/, '').length>1)
 	;
@@ -12,85 +14,19 @@ function findIds() {
 	copy(ids);
 }
 
-let srcFilePath = 'img/Map_of_Arkansas.svg';
-let destFileTemplate = (id)=>`Map_of_Arkansas_highlighting_${id}_County.svg`;
+let stateName = 'Connecticut';
+let srcFilePath = `img/Map_of_${stateName}.svg`;
+let destFileTemplate = (id)=>`Map_of_${stateName}_highlighting_${id}_County.svg`;
 
 const counties = [
-	"Arkansas",
-	"Ashley",
-	"Baxter",
-	"Benton",
-	"Boone",
-	"Bradley",
-	"Calhoun",
-	"Carroll",
-	"Chicot",
-	"Clark",
-	"Clay",
-	"Cleburne",
-	"Cleveland",
-	"Columbia",
-	"Conway",
-	"Craighead",
-	"Crawford",
-	"Crittenden",
-	"Cross",
-	"Dallas",
-	"Desha",
-	"Drew",
-	"Faulkner",
-	"Franklin",
-	"Fulton",
-	"Garland",
-	"Grant",
-	"Greene",
-	"Hempstead",
-	"Hot_Spring",
-	"Howard",
-	"Independence",
-	"Izard",
-	"Jackson",
-	"Jefferson",
-	"Johnson",
-	"Lafayette",
-	"Lawrence",
-	"Lee",
-	"Lincoln",
-	"Little_River",
-	"Logan",
-	"Lonoke",
-	"Madison",
-	"Marion",
-	"Miller",
-	"Mississippi",
-	"Monroe",
-	"Montgomery",
-	"Nevada",
-	"Newton",
-	"Ouachita",
-	"Perry",
-	"Phillips",
-	"Pike",
-	"Poinsett",
-	"Polk",
-	"Pope",
-	"Prairie",
-	"Pulaski",
-	"Randolph",
-	"Saint_Francis",
-	"Saline",
-	"Scott",
-	"Searcy",
-	"Sebastian",
-	"Sevier",
-	"Sharp",
-	"Stone",
-	"Union",
-	"Van_Buren",
-	"Washington",
-	"White",
-	"Woodruff",
-	"Yell"
+	"Fairfield",
+	"Hartford",
+	"Litchfield",
+	"Middlesex",
+	"New_Haven",
+	"New_London",
+	"Tolland",
+	"Windham"
 ];
 
 module.exports = {
