@@ -7,10 +7,12 @@ const { MwApi } = require("./mw-api");
 
 const apiUrl = 'https://commons.wikimedia.org/w/api.php';
 const { USERNAME, PASSWORD } = require('./bot.config');
-let { counties } = require("./img/usa_ids");
+let { counties, destFileTemplate, srcFilePath } = require("./img/usa_ids");
 const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);
+
+console.log("Upload of: ", {srcFilePath, size:counties.length});
 
 /**/
 (async () => {
@@ -21,9 +23,7 @@ let api = new MwApi(apiUrl);
 		console.error('Auth error.', error);
 	}
 
-	let srcFilePath = 'img/Map_of_Alaska.svg';
 	let summary = "fix rendering (remove clipping)";
-	let destFileTemplate = (id)=>`Map_of_Alaska_highlighting_${id}_County.svg`;
 
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
