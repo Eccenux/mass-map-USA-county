@@ -1,4 +1,4 @@
-	{
+{
 	"name": "mass-map-usa-county",
 	"version": "1.0.0",
 	"description": "Mass upload modified maps.",
@@ -10,6 +10,7 @@
 	"author": "Maciej Nux Jaros",
 	"license": "MIT",
 	"dependencies": {
+		"jsdom": "^24.1.0",
 		"request": "^2.88.2"
 	}
 }
