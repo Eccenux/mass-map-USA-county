@@ -8,21 +8,60 @@ const { MwApi } = require("./mw-api");
 const apiUrl = 'https://commons.wikimedia.org/w/api.php';
 const { USERNAME, PASSWORD } = require('./bot.config');
 // let { counties, destFileTemplate, srcFilePath } = require("./img/usa_ids");
-let { counties, destFileTemplate, srcFilePath } = require("./img/Map_of_Colorado.svg.js");
 const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);
 
-console.log("Upload of: ", {srcFilePath, size:counties.length});
+const mapSpecs = [
+	// "./img/Map_of_Maine.svg.js",
+	"./img/Map_of_Maryland.svg.js",
+	"./img/Map_of_Massachusetts.svg.js"
+];
 
-/**/
 (async () => {
+	await auth();
+
+    for (let mapSpecPath of mapSpecs) {
+        let options = require(mapSpecPath);
+        await run(options);
+    }	
+})();
+
+// "./img/Map_of_Kansas.svg.js",
+// "./img/Map_of_Kentucky.svg.js",
+// "./img/Map_of_Minnesota.svg.js",
+// "./img/Map_of_Mississippi.svg.js",
+// "./img/Map_of_Missouri.svg.js",
+// "./img/Map_of_Montana.svg.js",
+// "./img/Map_of_Nebraska.svg.js",
+// "./img/Map_of_New_Hampshire.svg.js",
+// "./img/Map_of_New_Jersey.svg.js",
+// "./img/Map_of_North_Carolina.svg.js",
+// "./img/Map_of_Ohio.svg.js",
+// "./img/Map_of_Oklahoma.svg.js",
+// "./img/Map_of_Oregon.svg.js",
+// "./img/Map_of_Rhode_Island.svg.js",
+// "./img/Map_of_South_Carolina.svg.js",
+// "./img/Map_of_Tennessee.svg.js",
+// "./img/Map_of_Utah.svg.js",
+// "./img/Map_of_Vermont.svg.js",
+
+
+// auth
+async function auth() {
 	try {
 		// estabilish session
 		await api.login(USERNAME, PASSWORD);
 	} catch (error) {
 		console.error('Auth error.', error);
 	}
+}
+
+// main
+async function run(options) {
+	let {counties, destFileTemplate, srcFilePath} = options;
+
+	console.log("Upload of: ", {srcFilePath, size:counties.length});
 
 	let summary = "fix rendering (remove clipping)";
 
@@ -72,7 +111,7 @@ console.log("Upload of: ", {srcFilePath, size:counties.length});
 	// Show stats: missing count, uploaded count.
 	let other = counties.length - done.length - missing.length;
 	console.info(`Uploaded: ${done.length}; missing: ${missing.length}; other: ${other}`);
-})();
+}
 /**
 
 counties = [
