@@ -7,7 +7,8 @@ const { MwApi } = require("./mw-api");
 
 const apiUrl = 'https://commons.wikimedia.org/w/api.php';
 const { USERNAME, PASSWORD } = require('./bot.config');
-let { counties, destFileTemplate, srcFilePath } = require("./img/usa_ids");
+// let { counties, destFileTemplate, srcFilePath } = require("./img/usa_ids");
+let { counties, destFileTemplate, srcFilePath } = require("./img/Map_of_Colorado.svg.js");
 const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);

@@ -1,6 +1,7 @@
 const fs = require('fs');
 
-const regex = /<use xlink:href="#([^"]+)" stroke="none" fill="red" \/>/;
+const highlightColor = '#E60000';
+const regex = /<use xlink:href="#([^"]+)" stroke="none" fill="(red|#E60000)" \/>/;
 
 /**
  * Replace or throw.
@@ -8,19 +9,14 @@ const regex = /<use xlink:href="#([^"]+)" stroke="none" fill="red" \/>/;
 function replaceUseHref(filePath, newId) {
 	const data = fs.readFileSync(filePath, 'utf8');
 
-	let replacement = `<use xlink:href="#${newId}" stroke="none" fill="red" />`;
+	let replacement = `<use xlink:href="#${newId}" stroke="none" fill="${highlightColor}" />`;
 	let ok = false;
 	const result = data.replace(regex, (a, matchedId) => {
+		ok = true;
 		if (newId === matchedId) {
-			ok = true;
 			return a;
 		}
-		if (replacement != a) {
-			ok = true;
-			return replacement;
-		}
-		console.warn("Very weird", {a, matchedId, replacement});
-		return a;
+		return replacement;
 	});
 	if (!ok) {
 		throw "Replace failed";
