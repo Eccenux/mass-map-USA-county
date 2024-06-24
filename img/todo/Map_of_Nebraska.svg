@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="2471.17" height="1137.13" viewBox="-34366,-16378 74135,34114">
 
-<g stroke="black" fill="white" stroke-linejoin="round" stroke-width="118">
+<g stroke="black" fill="#fdf9d2" stroke-linejoin="round" stroke-width="118">
 <path id="Adams" d="M 10521,9917 l 943,-2 1004,-21 958,-17 805,-11 41,5 6,977 5,348 0,106 11,468 0,40 53,1919 -564,6 -328,11 -41,0 -923,1 -35,10 -928,11 -974,16 -16,-941 -53,-2806 0,-120 z" />
 <path id="Antelope" d="M 13717,-9434 l 3799,-109 25,0 38,974 62,2897 59,1917 -3832,118 -43,-1927 -36,0 z" />
 <path id="Arthur" d="M -12128,-1696 l 169,6 -73,3862 -4848,-98 80,-3852 1949,31 962,37 794,17 680,-3 26,-5 z" />
@@ -96,5 +96,5 @@
 <path id="Wheeler" d="M 9978,-5482 l 972,-17 2839,-65 36,0 43,1927 28,1922 -3797,91 -57,0 -37,-1932 z" />
 <path id="York" d="M 17983,5923 l 531,-15 1398,-44 574,-27 389,-1 968,-27 43,982 71,2887 -2895,88 -958,22 z" />
 </g>
-<use xlink:href="#Antelope" stroke="none" fill="red" />
+<use xlink:href="#Antelope" stroke="none" fill="#E60000" />
 </svg>

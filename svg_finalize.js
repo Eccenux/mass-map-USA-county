@@ -1,9 +1,12 @@
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
-// List SVG files in the current directory
-const basePath = './img/todo';
-const files = fs.readdirSync('./img/todo');
+//
+// Generate JS-counties files.
+// BTW. Automatic resize of SVG.
+//
+const basePath = './img/todo/spec';
+const files = fs.readdirSync(basePath);
 const svgFiles = files.filter(file => file.endsWith('.svg'));
 svgFiles.forEach(svgFile => {
 	processSVG(basePath, svgFile);
