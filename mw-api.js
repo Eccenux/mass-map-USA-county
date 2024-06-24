@@ -145,7 +145,12 @@ class MwApi {
 					reject(error);
 					return;
 				}
-				let data = JSON.parse(body);
+				let data;
+				try {
+					data = JSON.parse(body);
+				} catch (ex) {
+					reject(ex);
+				}
 				if (data.error) {
 					reject(data.error);
 					return;

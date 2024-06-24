@@ -13,39 +13,36 @@ const { replaceUseHref } = require("./usa_replace");
 let api = new MwApi(apiUrl);
 
 const mapSpecs = [
-	// "./img/Map_of_Maine.svg.js",
-	// "./img/Map_of_Maryland.svg.js",
-	// "./img/Map_of_Massachusetts.svg.js"
-
-	// "./img/Map_of_Vermont.svg.js",
-	// "./img/Map_of_New_Hampshire.svg.js",
 	"./img/Map_of_Rhode_Island.svg.js",
-
-	// "./img/Map_of_Kansas.svg.js",
-	// "./img/Map_of_Kentucky.svg.js",
-	// "./img/Map_of_Minnesota.svg.js",
-	// "./img/Map_of_Mississippi.svg.js",
-	// "./img/Map_of_Missouri.svg.js",
-	// "./img/Map_of_Montana.svg.js",
-	// "./img/Map_of_Nebraska.svg.js",
-	// "./img/Map_of_New_Jersey.svg.js",
-	// "./img/Map_of_North_Carolina.svg.js",
-	// "./img/Map_of_Ohio.svg.js",
-	// "./img/Map_of_Oklahoma.svg.js",
+	"./img/Map_of_New_Jersey.svg.js",
+	"./img/Map_of_Utah.svg.js",
 	// "./img/Map_of_Oregon.svg.js",
+	// "./img/Map_of_Washington.svg.js",
 	// "./img/Map_of_South_Carolina.svg.js",
+	// "./img/Map_of_West_Virginia.svg.js",
+	// "./img/Map_of_Montana.svg.js",
+	// "./img/Map_of_Colorado.svg.js",
+	// "./img/Map_of_Oklahoma.svg.js",
+	// "./img/Map_of_Mississippi.svg.js",
+	// "./img/Map_of_Ohio.svg.js",
+	// "./img/Map_of_Nebraska.svg.js",
+	// "./img/Map_of_Minnesota.svg.js",
 	// "./img/Map_of_Tennessee.svg.js",
-	// "./img/Map_of_Utah.svg.js",
+	// "./img/Map_of_North_Carolina.svg.js",
+	// "./img/Map_of_Kansas.svg.js",
+	// "./img/Map_of_Missouri.svg.js",
+	// "./img/Map_of_Kentucky.svg.js",
 ];
 
 (async () => {
 	await auth();
 
-	let total = {done:0, missing:[], other:0}
+	let total = {missing:[], error:[], done:0, other:0}
 	for (let mapSpecPath of mapSpecs) {
 		let options = require(mapSpecPath);
-		let {done, missing, other} = await run(options);
+		let {done, missing, error, other} = await run(options);
 		total.missing = [...total.missing, ...missing];
+		total.error = [...total.error, ...error];
 		total.done += done;
 		total.other += other;
 	}
@@ -58,8 +55,8 @@ async function auth() {
 	try {
 		// estabilish session
 		await api.login(USERNAME, PASSWORD);
-	} catch (error) {
-		console.error('Auth error.', error);
+	} catch (ex) {
+		console.error('Auth error.', ex);
 	}
 }
 
@@ -74,6 +71,7 @@ async function run(options) {
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
 	let missing = [];
+	let error = [];
 	// counties = [
 	// 	"Albany",
 	// 	"Allegany",
@@ -101,26 +99,33 @@ async function run(options) {
 				console.warn(`File:${destFileName} does not exist on Commons.`);
 				missing.push({id, destFileName});
 			}
-		} catch (error) {
-			console.error(`Unable to upload File:${destFileName}.`, error);
+		} catch (ex) {
+			console.error(`Unable to upload File:${destFileName}.`, ex);
+			error.push({id, destFileName});
 			// Upon error stop (at least for now).
 			// break;
 		}
 	}
 	let other = counties.length - done.length - missing.length;
-	let results = {done:done.length, missing, other};
+	let results = {done:done.length, missing, error, other};
 	info(results);
 	return results;
 }
 
 function info(results) {
-	let {done, missing, other} = results;
+	let {done, missing, error, other} = results;
 
 	// Finally dump list of missing files.
 	if (missing.length) {
 		console.warn("Missing:");
 		missing.forEach((item) => {
 			console.warn(item);
+		});
+	}
+	if (error.length) {
+		console.warn("Error:");
+		error.forEach((item) => {
+			console.error(item);
 		});
 	}
 	// Show stats: missing count, uploaded count.
