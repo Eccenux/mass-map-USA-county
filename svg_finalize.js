@@ -5,7 +5,8 @@ const { JSDOM } = require('jsdom');
 // Generate JS-counties files.
 // BTW. Automatic resize of SVG.
 //
-const basePath = './img/todo/spec';
+// const basePath = './img/todo/spec';
+const basePath = './img/';
 const files = fs.readdirSync(basePath);
 const svgFiles = files.filter(file => file.endsWith('.svg'));
 svgFiles.forEach(svgFile => {
@@ -100,7 +101,7 @@ let stateName = '${stateName}';
 let srcFilePath = 'img/Map_of_' + stateName + '.svg';
 let destFileTemplate = (id) => 'Map_of_' + stateName + '_highlighting_' + id + '_County.svg';
 
-const counties = [${counties.map(id => `'${id}'`).join(', ')}];
+const counties = ${JSON.stringify(counties)};
 
 module.exports = {
 	counties,
