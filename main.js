@@ -14,37 +14,43 @@ let api = new MwApi(apiUrl);
 
 const mapSpecs = [
 	// "./img/Map_of_Maine.svg.js",
-	"./img/Map_of_Maryland.svg.js",
-	"./img/Map_of_Massachusetts.svg.js"
+	// "./img/Map_of_Maryland.svg.js",
+	// "./img/Map_of_Massachusetts.svg.js"
+	
+	"./img/Map_of_Vermont.svg.js",
+	"./img/Map_of_New_Hampshire.svg.js",
+	"./img/Map_of_Rhode_Island.svg.js",
+
+	// "./img/Map_of_Kansas.svg.js",
+	// "./img/Map_of_Kentucky.svg.js",
+	// "./img/Map_of_Minnesota.svg.js",
+	// "./img/Map_of_Mississippi.svg.js",
+	// "./img/Map_of_Missouri.svg.js",
+	// "./img/Map_of_Montana.svg.js",
+	// "./img/Map_of_Nebraska.svg.js",
+	// "./img/Map_of_New_Jersey.svg.js",
+	// "./img/Map_of_North_Carolina.svg.js",
+	// "./img/Map_of_Ohio.svg.js",
+	// "./img/Map_of_Oklahoma.svg.js",
+	// "./img/Map_of_Oregon.svg.js",
+	// "./img/Map_of_South_Carolina.svg.js",
+	// "./img/Map_of_Tennessee.svg.js",
+	// "./img/Map_of_Utah.svg.js",
 ];
 
 (async () => {
 	await auth();
 
-    for (let mapSpecPath of mapSpecs) {
-        let options = require(mapSpecPath);
-        await run(options);
-    }	
+	let total = {done:0, missing:[], other:0}
+	for (let mapSpecPath of mapSpecs) {
+		let options = require(mapSpecPath);
+		let {done, missing, other} = await run(options);
+		total.missing = [...total.missing, ...missing];
+		total.done += done;
+		total.other += other;
+	}
+	info(total);
 })();
-
-// "./img/Map_of_Kansas.svg.js",
-// "./img/Map_of_Kentucky.svg.js",
-// "./img/Map_of_Minnesota.svg.js",
-// "./img/Map_of_Mississippi.svg.js",
-// "./img/Map_of_Missouri.svg.js",
-// "./img/Map_of_Montana.svg.js",
-// "./img/Map_of_Nebraska.svg.js",
-// "./img/Map_of_New_Hampshire.svg.js",
-// "./img/Map_of_New_Jersey.svg.js",
-// "./img/Map_of_North_Carolina.svg.js",
-// "./img/Map_of_Ohio.svg.js",
-// "./img/Map_of_Oklahoma.svg.js",
-// "./img/Map_of_Oregon.svg.js",
-// "./img/Map_of_Rhode_Island.svg.js",
-// "./img/Map_of_South_Carolina.svg.js",
-// "./img/Map_of_Tennessee.svg.js",
-// "./img/Map_of_Utah.svg.js",
-// "./img/Map_of_Vermont.svg.js",
 
 
 // auth
@@ -101,6 +107,15 @@ async function run(options) {
 			// break;
 		}
 	}
+	let other = counties.length - done.length - missing.length;
+	let results = {done:done.length, missing, other};
+	info(results);
+	return results;
+}
+
+function info(results) {
+	let {done, missing, other} = results;
+
 	// Finally dump list of missing files.
 	if (missing.length) {
 		console.warn("Missing:");
@@ -109,8 +124,7 @@ async function run(options) {
 		});
 	}
 	// Show stats: missing count, uploaded count.
-	let other = counties.length - done.length - missing.length;
-	console.info(`Uploaded: ${done.length}; missing: ${missing.length}; other: ${other}`);
+	console.info(`Uploaded: ${done}; missing: ${missing.length}; other: ${other}`);
 }
 /**
 
