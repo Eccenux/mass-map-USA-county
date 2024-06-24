@@ -16,9 +16,9 @@ const mapSpecs = [
 	// "./img/Map_of_Maine.svg.js",
 	// "./img/Map_of_Maryland.svg.js",
 	// "./img/Map_of_Massachusetts.svg.js"
-	
-	"./img/Map_of_Vermont.svg.js",
-	"./img/Map_of_New_Hampshire.svg.js",
+
+	// "./img/Map_of_Vermont.svg.js",
+	// "./img/Map_of_New_Hampshire.svg.js",
 	"./img/Map_of_Rhode_Island.svg.js",
 
 	// "./img/Map_of_Kansas.svg.js",
