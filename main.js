@@ -37,7 +37,7 @@ const mapSpecs = [
 	// "./img/Map_of_South_Dakota.svg.js",
 
 	// complex mapping
-	// "./img/Map_of_Alaska.svg.js",
+	"./img/Map_of_Alaska.svg.js",
 ];
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
