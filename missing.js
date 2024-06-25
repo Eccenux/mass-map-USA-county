@@ -2,7 +2,10 @@ let missing = [
 	{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
 	{id: 'Saint_Charles', 	 		destFileName: 'Map of Missouri highlighting St. Charles County.svg'},
 	{id: 'Sainte_Genevieve', 		destFileName: 'Map of Missouri highlighting Ste. Genevieve County.svg'},
+
 	{id: 'Larue', 					destFileName: 'Map of Kentucky highlighting LaRue County.svg'},
+
+	{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
 ]
 
 /*
@@ -14,14 +17,13 @@ False-Error (error, but OK):
 {id: '✅Boyd', 					destFileName: 'Map_of_Nebraska_highlighting_Boyd_County.svg'}
 
 Uploaded: 953; missing: 1; other: 8
+Uploaded: 244; missing: 0; other: 1
 */
 
 // re-do (as yellow tiles)
 // Alabama · Alaska · Arizona · Arkansas · Connecticut · Dakota Północna · Dakota Południowa · Delaware
 // Georgia · Hawaje · Idaho · Illinois · Indiana · Iowa 
 // https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_New_York_(state)
-// re-do others:
-// https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Wyoming
 
 //  todo
 /*
