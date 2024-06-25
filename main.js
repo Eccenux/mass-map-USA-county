@@ -40,28 +40,28 @@ const mapSpecs = [
 	// "./img/Map_of_Kentucky.svg.js",
 	// "./img/Map_of_Michigan.svg.js",
 ];
-let extraMapping = {
-	"./img/Map_of_Missouri.svg.js": [
-		{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
-		{id: 'Saint_Charles', 	 		destFileName: 'Map of Missouri highlighting St. Charles County.svg'},
-		{id: 'Sainte_Genevieve', 		destFileName: 'Map of Missouri highlighting Ste. Genevieve County.svg'},
-	],
-	"./img/Map_of_Kentucky.svg.js": [
-		{id: 'Larue', 					destFileName: 'Map of Kentucky highlighting LaRue County.svg'},
-	],
-	"./img/Map_of_Michigan.svg.js": [
-		{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
-	],
-};
+// let extraMapping = {
+// 	"./img/Map_of_Missouri.svg.js": [
+// 		{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
+// 		{id: 'Saint_Charles', 	 		destFileName: 'Map of Missouri highlighting St. Charles County.svg'},
+// 		{id: 'Sainte_Genevieve', 		destFileName: 'Map of Missouri highlighting Ste. Genevieve County.svg'},
+// 	],
+// 	"./img/Map_of_Kentucky.svg.js": [
+// 		{id: 'Larue', 					destFileName: 'Map of Kentucky highlighting LaRue County.svg'},
+// 	],
+// 	"./img/Map_of_Michigan.svg.js": [
+// 		{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
+// 	],
+// };
 
 (async () => {
 	await auth();
 
 	let total = {missing:[], error:[], done:0, other:0}
-	// for (let mapSpecPath of mapSpecs) {
-	for (let mapSpecPath in extraMapping) {
+	for (let mapSpecPath of mapSpecs) {
+	// for (let mapSpecPath in extraMapping) {
 		let options = require(mapSpecPath);
-		options.counties = extraMapping[mapSpecPath];
+		// options.counties = extraMapping[mapSpecPath];
 
 		let {done, missing, error, other} = await run(options);
 		total.missing = [...total.missing, ...missing];

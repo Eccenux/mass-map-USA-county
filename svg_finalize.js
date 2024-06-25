@@ -25,20 +25,25 @@ function processSVG(basePath, svgFile) {
 		const jsPath = basePath+'/'+svgFile+'.js';
 
 		// Read the content of each SVG file as DOM
-		const data = fs.readFileSync(svgPath, 'utf8');
-		const dom = new JSDOM(data);
+		let content = fs.readFileSync(svgPath, 'utf8');
+		const dom = new JSDOM(content);
 		const document = dom.window.document;
 		const svg = document.querySelector('svg');
 
-		// Execute functions
+		// Execute transforms
 		const counties = findCounties(svg);
-		whResize(svg, svgPath);
+		content = whResize(svg, content);
+		content = colorMod(svg, content);
+		fs.writeFileSync(svgPath, content);
 
 		// Create svgfile.js with the data
-		const content = generateFileContent(stateName, counties);
-		fs.writeFileSync(jsPath, content);
+		const jsContent = generateFileContent(stateName, counties);
+		fs.writeFileSync(jsPath, jsContent);
+
+		console.log(`Done ${svgFile}: counties: ${counties.length}`);
 	} catch (err) {
 		console.error(`Error processing file ${svgFile}:`, err);
+		return;
 	}
 }
 
@@ -57,11 +62,25 @@ function findCounties(svg) {
 }
 
 /**
+ * New colors of tiles.
+ * @param {SVGElementTagNameMap} svg element.
+ * @param {String} content File content.
+ */
+function colorMod(svg, content) {
+	
+	content = content
+		.replace(/stroke="(<g stroke="black" fill=")(?:white|none)(" )/, '$1#fdf9d2$2')
+		.replace(/(<use xlink:href="#(?:[^"]+)" stroke="none" fill=")red/, '$1#E60000')
+	;
+	return content;
+}
+
+/**
  * Resize image as displayed in a browser.
  * @param {SVGElementTagNameMap} svg element.
- * @param {String} svgPath path to file.
+ * @param {String} content File content.
  */
-function whResize(svg, svgPath) {
+function whResize(svg, content) {
 	function parse(xstr) {
 		return Number.parseFloat(xstr);
 	}
@@ -82,16 +101,14 @@ function whResize(svg, svgPath) {
 	let n_h = resize(height, divide);
 
 	// Print width and height attributes divided by two
-	console.log(`${svgPath};`, {width, height, divide, n_w, n_h});
+	console.log('whResize', {width, height, divide, n_w, n_h});
 	if (divide > 1.0) {
-		console.log(`resizing ${svgPath}`);
-		let content = fs.readFileSync(svgPath, 'utf8');
 		content = content
 			.replace(/(<svg[^>]+ width=")[^"]+/, '$1'+n_w)
 			.replace(/(<svg[^>]+ height=")[^"]+/, '$1'+n_h)
 		;
-		fs.writeFileSync(svgPath, content);
 	}
+	return content;
 }
 
 function generateFileContent(stateName, counties) {
