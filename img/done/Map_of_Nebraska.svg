@@ -96,5 +96,5 @@
 <path id="Wheeler" d="M 9978,-5482 l 972,-17 2839,-65 36,0 43,1927 28,1922 -3797,91 -57,0 -37,-1932 z" />
 <path id="York" d="M 17983,5923 l 531,-15 1398,-44 574,-27 389,-1 968,-27 43,982 71,2887 -2895,88 -958,22 z" />
 </g>
-<use xlink:href="#Antelope" stroke="none" fill="#E60000" />
+<use xlink:href="#York" stroke="none" fill="#E60000" />
 </svg>
