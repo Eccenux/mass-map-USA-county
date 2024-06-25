@@ -17,6 +17,8 @@ let summary = "uniform colors with good contrast";
 
 // Extra seconds needed for limits...
 // let waitSec = 8;
+
+// Quick (for small-ish batches around 200 files)
 let waitSec = 0;
 
 const mapSpecs = [
@@ -41,7 +43,7 @@ const mapSpecs = [
 	// "./img/Map_of_Alaska.svg.js",
 
 	// complex/large
-	"./img/Map_of_California.svg.js",
+	// "./img/Map_of_California.svg.js",
 ];
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
