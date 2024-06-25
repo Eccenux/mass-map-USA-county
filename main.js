@@ -23,16 +23,22 @@ const mapSpecs = [
 	// "./img/Map_of_West_Virginia.svg.js",
 	// "./img/Map_of_Montana.svg.js",
 	// "./img/Map_of_Colorado.svg.js",
-	"./img/Map_of_Oklahoma.svg.js",
-	"./img/Map_of_Mississippi.svg.js",
-	"./img/Map_of_Ohio.svg.js",
-	"./img/Map_of_Nebraska.svg.js",
-	"./img/Map_of_Minnesota.svg.js",
-	"./img/Map_of_Tennessee.svg.js",
-	"./img/Map_of_North_Carolina.svg.js",
-	"./img/Map_of_Kansas.svg.js",
-	"./img/Map_of_Missouri.svg.js",
-	"./img/Map_of_Kentucky.svg.js",
+	// "./img/Map_of_Oklahoma.svg.js",
+	// "./img/Map_of_Mississippi.svg.js",
+	// "./img/Map_of_Ohio.svg.js",
+	// "./img/Map_of_Nebraska.svg.js",
+	// "./img/Map_of_Minnesota.svg.js",
+	// "./img/Map_of_Tennessee.svg.js",
+	// "./img/Map_of_North_Carolina.svg.js",
+	// "./img/Map_of_Kansas.svg.js",
+
+	// "./img/Map_of_Missouri.svg.js",
+	// "./img/Map_of_Kentucky.svg.js",
+
+	"./img/Map_of_Michigan.svg.js",
+	"./img/Map_of_Pennsylvania.svg.js",
+	"./img/Map_of_Wisconsin.svg.js",
+	"./img/Map_of_Wyoming.svg.js",
 ];
 
 (async () => {
