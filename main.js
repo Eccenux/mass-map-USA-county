@@ -16,7 +16,8 @@ let api = new MwApi(apiUrl);
 let summary = "uniform colors with good contrast";
 
 // Extra seconds needed for limits...
-let waitSec = 8;
+// let waitSec = 8;
+let waitSec = 0;
 
 const mapSpecs = [
 	// small
@@ -37,7 +38,10 @@ const mapSpecs = [
 	// "./img/Map_of_South_Dakota.svg.js",
 
 	// complex mapping
-	"./img/Map_of_Alaska.svg.js",
+	// "./img/Map_of_Alaska.svg.js",
+
+	// complex/large
+	"./img/Map_of_California.svg.js",
 ];
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
@@ -83,10 +87,12 @@ const mapSpecs = [
 })();
 
 function sleep(s) {
-	let minutes = Math.floor(s / 60);
-	let seconds = s % 60;
-	let info = minutes > 0 ? `${minutes}:${seconds} [min:s]` : `${s} [s]`;
-	console.log(`Waiting... ${info}`);
+	if (s > 0.01) {
+		let minutes = Math.floor(s / 60);
+		let seconds = s % 60;
+		let info = minutes > 0 ? `${minutes}:${seconds} [min:s]` : `${s} [s]`;
+		console.log(`Waiting... ${info}`);
+	}
 	return new Promise(resolve => setTimeout(resolve, s * 1000));
 }
 
