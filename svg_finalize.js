@@ -69,7 +69,7 @@ function findCounties(svg) {
 function colorMod(svg, content) {
 	
 	content = content
-		.replace(/stroke="(<g stroke="black" fill=")(?:white|none)(" )/, '$1#fdf9d2$2')
+		.replace(/(<g stroke="black" fill=")(?:white|none)(" )/, '$1#fdf9d2$2')
 		.replace(/(<use xlink:href="#(?:[^"]+)" stroke="none" fill=")red/, '$1#E60000')
 	;
 	return content;
