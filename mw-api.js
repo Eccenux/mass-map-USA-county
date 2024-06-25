@@ -150,6 +150,7 @@ class MwApi {
 					data = JSON.parse(body);
 				} catch (ex) {
 					reject(ex);
+					return;
 				}
 				if (data.error) {
 					reject(data.error);
@@ -157,9 +158,11 @@ class MwApi {
 				}
 				else if (data.upload.result === "Success"){
 					resolve(data.upload.result)
+					return;
 				}
 				else {
 					reject(data.upload.result)
+					return;
 				}
 			});
 		});
