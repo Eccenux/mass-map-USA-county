@@ -25,16 +25,16 @@ const mapSpecs = [
 	// "./img/Map_of_Hawaii.svg.js",
 
 	// medium-big
-	"./img/Map_of_Alabama.svg.js",
-	"./img/Map_of_Arkansas.svg.js",
-	"./img/Map_of_Georgia.svg.js",
-	"./img/Map_of_Idaho.svg.js",
-	"./img/Map_of_Illinois.svg.js",
-	"./img/Map_of_Indiana.svg.js",
-	"./img/Map_of_Iowa.svg.js",
-	"./img/Map_of_New_York.svg.js",
-	"./img/Map_of_North_Dakota.svg.js",
-	"./img/Map_of_South_Dakota.svg.js",
+	// "./img/Map_of_Alabama.svg.js",
+	// "./img/Map_of_Arkansas.svg.js",
+	// "./img/Map_of_Georgia.svg.js",
+	// "./img/Map_of_Idaho.svg.js",
+	// "./img/Map_of_Illinois.svg.js",
+	// "./img/Map_of_Indiana.svg.js",
+	// "./img/Map_of_Iowa.svg.js",
+	// "./img/Map_of_New_York.svg.js",
+	// "./img/Map_of_North_Dakota.svg.js",
+	// "./img/Map_of_South_Dakota.svg.js",
 
 	// complex mapping
 	// "./img/Map_of_Alaska.svg.js",
@@ -52,15 +52,30 @@ const mapSpecs = [
 // 		{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
 // 	],
 // };
+let extraMapping = {
+	"./img/Map_of_Georgia.svg.js": [
+		{id: 'Telfair', destFileName: 'Map_of_Georgia_highlighting_Telfair_County.svg'},
+	],
+	"./img/Map_of_Illinois.svg.js": [
+		{id: 'De_Witt', destFileName: 'Map of Illinois highlighting DeWitt County.svg'},
+		{id: 'Saint_Clair', destFileName: 'Map of Illinois highlighting St. Clair County.svg'},
+	],
+	"./img/Map_of_South_Dakota.svg.js": [
+		{id: 'Shannon', destFileName: 'Map of South Dakota highlighting Oglala Lakota County.svg'},
+	],
+	"./img/Map_of_New_York.svg.js": [
+		{id: 'Saint_Lawrence', destFileName: 'Map of New York highlighting St. Lawrence County.svg'},
+	],
+};
 
 (async () => {
 	await auth();
 
 	let total = {missing:[], error:[], done:0, other:0}
-	for (let mapSpecPath of mapSpecs) {
-	// for (let mapSpecPath in extraMapping) {
+	// for (let mapSpecPath of mapSpecs) {
+	for (let mapSpecPath in extraMapping) {
 		let options = require(mapSpecPath);
-		// options.counties = extraMapping[mapSpecPath];
+		options.counties = extraMapping[mapSpecPath];
 
 		let {done, missing, error, other} = await run(options, waitSec);
 		total.missing = [...total.missing, ...missing];

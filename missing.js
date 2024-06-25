@@ -1,3 +1,21 @@
+// repeat
+// Uploaded: 811; missing: 2; other: 6
+let extraMapping2 = {
+	"./img/Map_of_Georgia.svg.js": [
+		{id: 'Telfair', destFileName: 'Map_of_Georgia_highlighting_Telfair_County.svg'},
+	],
+	"./img/Map_of_Illinois.svg.js": [
+		{id: 'De_Witt', destFileName: 'Map of Illinois highlighting DeWitt County.svg'},
+		{id: 'Saint_Clair', destFileName: 'Map of Illinois highlighting St. Clair County.svg'},
+	],
+	"./img/Map_of_South_Dakota.svg.js": [
+		{id: 'Shannon', destFileName: 'Map of South Dakota highlighting Oglala Lakota County.svg'},
+	],
+	"./img/Map_of_New_York.svg.js": [
+		{id: 'Saint_Lawrence', destFileName: 'Map of New York highlighting St. Lawrence County.svg'},
+	],
+}
+
 // done ✅
 let missing = [
 	{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
