@@ -15,23 +15,26 @@ let api = new MwApi(apiUrl);
 // let summary = "fix rendering (remove clipping)";
 let summary = "uniform colors with good contrast";
 
+// Extra seconds needed for limits...
+let waitSec = 8;
+
 const mapSpecs = [
 	// small
-	"./img/Map_of_Connecticut.svg.js",
-	"./img/Map_of_Delaware.svg.js",
-	"./img/Map_of_Hawaii.svg.js",
+	// "./img/Map_of_Connecticut.svg.js",
+	// "./img/Map_of_Delaware.svg.js",
+	// "./img/Map_of_Hawaii.svg.js",
 
 	// medium-big
-	// "./img/Map_of_Alabama.svg.js",
-	// "./img/Map_of_Arkansas.svg.js",
-	// "./img/Map_of_Georgia.svg.js",
-	// "./img/Map_of_Idaho.svg.js",
-	// "./img/Map_of_Illinois.svg.js",
-	// "./img/Map_of_Indiana.svg.js",
-	// "./img/Map_of_Iowa.svg.js",
-	// "./img/Map_of_New_York.svg.js",
-	// "./img/Map_of_North_Dakota.svg.js",
-	// "./img/Map_of_South_Dakota.svg.js",
+	"./img/Map_of_Alabama.svg.js",
+	"./img/Map_of_Arkansas.svg.js",
+	"./img/Map_of_Georgia.svg.js",
+	"./img/Map_of_Idaho.svg.js",
+	"./img/Map_of_Illinois.svg.js",
+	"./img/Map_of_Indiana.svg.js",
+	"./img/Map_of_Iowa.svg.js",
+	"./img/Map_of_New_York.svg.js",
+	"./img/Map_of_North_Dakota.svg.js",
+	"./img/Map_of_South_Dakota.svg.js",
 
 	// complex mapping
 	// "./img/Map_of_Alaska.svg.js",
@@ -52,8 +55,6 @@ const mapSpecs = [
 
 (async () => {
 	await auth();
-
-	let waitSec = 0;
 
 	let total = {missing:[], error:[], done:0, other:0}
 	for (let mapSpecPath of mapSpecs) {
