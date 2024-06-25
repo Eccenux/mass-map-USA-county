@@ -6,7 +6,7 @@ const { JSDOM } = require('jsdom');
 // BTW. Automatic resize of SVG.
 //
 // const basePath = './img/todo/spec';
-const basePath = './img/';
+const basePath = './img/todo';
 const files = fs.readdirSync(basePath);
 const svgFiles = files.filter(file => file.endsWith('.svg'));
 svgFiles.forEach(svgFile => {
@@ -34,7 +34,7 @@ function processSVG(basePath, svgFile) {
 		const counties = findCounties(svg);
 		content = whResize(svg, content);
 		content = colorMod(svg, content);
-		fs.writeFileSync(svgPath, content);
+		// fs.writeFileSync(svgPath, content);
 
 		// Create svgfile.js with the data
 		const jsContent = generateFileContent(stateName, counties);
@@ -56,7 +56,7 @@ function findCounties(svg) {
 	// `<svg> → <g stroke="black" fill="white"> → <svgPath/g id>`
 	const ids = [...svg.querySelectorAll('svg > g > [id]')]
 		.map(el=>el.id)
-		.filter(id=>id.replace(/[0-9]+/, '').length>1)
+		.filter(id=>id.replace(/(path|g)?[0-9]+/, '').length>1)
 	;
 	return ids;
 }
