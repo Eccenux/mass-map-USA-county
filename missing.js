@@ -8,6 +8,20 @@ let missing = [
 
 	{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
 ]
+// extra mapping for 3 states (non-standard names)
+let extraMapping = {
+	"./img/Map_of_Missouri.svg.js": [
+		{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
+		{id: 'Saint_Charles', 	 		destFileName: 'Map of Missouri highlighting St. Charles County.svg'},
+		{id: 'Sainte_Genevieve', 		destFileName: 'Map of Missouri highlighting Ste. Genevieve County.svg'},
+	],
+	"./img/Map_of_Kentucky.svg.js": [
+		{id: 'Larue', 					destFileName: 'Map of Kentucky highlighting LaRue County.svg'},
+	],
+	"./img/Map_of_Michigan.svg.js": [
+		{id: 'Saint_Clair',             destFileName: 'Map of Michigan highlighting St. Clair County.svg'}
+	],
+};
 
 /*
 False-Error (error, but OK):
@@ -19,22 +33,4 @@ False-Error (error, but OK):
 
 Uploaded: 953; missing: 1; other: 8
 Uploaded: 244; missing: 0; other: 1
-*/
-
-// re-do (as yellow tiles)
-// Alabama · Alaska · Arizona · Arkansas · Connecticut · Dakota Północna · Dakota Południowa · Delaware
-// Georgia · Hawaje · Idaho · Illinois · Indiana · Iowa 
-// https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_New_York_(state)
-
-//  todo
-/*
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Florida
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_California
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_parishes_of_Louisiana
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Nevada
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Texas
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Virginia
-
-This one got text:
-https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_New_Mexico
 */
