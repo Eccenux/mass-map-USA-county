@@ -12,33 +12,29 @@ const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);
 
+// let summary = "fix rendering (remove clipping)";
+let summary = "uniform colors with good contrast";
+
 const mapSpecs = [
-	// "./img/Map_of_Rhode_Island.svg.js",
-	// "./img/Map_of_New_Jersey.svg.js",
-	// "./img/Map_of_Utah.svg.js",
+	// small
+	"./img/Map_of_Connecticut.svg.js",
+	"./img/Map_of_Delaware.svg.js",
+	"./img/Map_of_Hawaii.svg.js",
 
-	// "./img/Map_of_Oregon.svg.js",
-	// "./img/Map_of_Washington.svg.js",
-	// "./img/Map_of_South_Carolina.svg.js",
-	// "./img/Map_of_West_Virginia.svg.js",
-	// "./img/Map_of_Montana.svg.js",
-	// "./img/Map_of_Colorado.svg.js",
-	// "./img/Map_of_Oklahoma.svg.js",
-	// "./img/Map_of_Mississippi.svg.js",
-	// "./img/Map_of_Ohio.svg.js",
-	// "./img/Map_of_Nebraska.svg.js",
-	// "./img/Map_of_Minnesota.svg.js",
-	// "./img/Map_of_Tennessee.svg.js",
-	// "./img/Map_of_North_Carolina.svg.js",
-	// "./img/Map_of_Kansas.svg.js",
+	// medium-big
+	// "./img/Map_of_Alabama.svg.js",
+	// "./img/Map_of_Arkansas.svg.js",
+	// "./img/Map_of_Georgia.svg.js",
+	// "./img/Map_of_Idaho.svg.js",
+	// "./img/Map_of_Illinois.svg.js",
+	// "./img/Map_of_Indiana.svg.js",
+	// "./img/Map_of_Iowa.svg.js",
+	// "./img/Map_of_New_York.svg.js",
+	// "./img/Map_of_North_Dakota.svg.js",
+	// "./img/Map_of_South_Dakota.svg.js",
 
-	// "./img/Map_of_Pennsylvania.svg.js",
-	// "./img/Map_of_Wisconsin.svg.js",
-	// "./img/Map_of_Wyoming.svg.js",
-
-	// "./img/Map_of_Missouri.svg.js",
-	// "./img/Map_of_Kentucky.svg.js",
-	// "./img/Map_of_Michigan.svg.js",
+	// complex mapping
+	// "./img/Map_of_Alaska.svg.js",
 ];
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
@@ -57,13 +53,15 @@ const mapSpecs = [
 (async () => {
 	await auth();
 
+	let waitSec = 0;
+
 	let total = {missing:[], error:[], done:0, other:0}
 	for (let mapSpecPath of mapSpecs) {
 	// for (let mapSpecPath in extraMapping) {
 		let options = require(mapSpecPath);
 		// options.counties = extraMapping[mapSpecPath];
 
-		let {done, missing, error, other} = await run(options);
+		let {done, missing, error, other} = await run(options, waitSec);
 		total.missing = [...total.missing, ...missing];
 		total.error = [...total.error, ...error];
 		total.done += done;
@@ -91,15 +89,16 @@ async function auth() {
 	}
 }
 
-// main
-async function run(options) {
+/**
+ * Main.
+ * @param {Object} options State specific options.
+ * @param {Number} waitSec Extra seconds needed for limits...
+ * @returns {done:int, missing:[], error:[], other:int}
+ */
+async function run(options, waitSec = 8) {
 	let {counties, destFileTemplate, srcFilePath} = options;
 
 	console.log("Upload of: ", {srcFilePath, size:counties.length});
-
-	let summary = "fix rendering (remove clipping)";
-	// extra seconds needed for limits...
-	const waitSec = 9;
 
 	// Loop over named ids in the map (or maybe predefined list...).
 	let done = [];
