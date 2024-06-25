@@ -32,9 +32,18 @@ function processSVG(basePath, svgFile) {
 
 		// Execute transforms
 		const counties = findCounties(svg);
-		content = whResize(svg, content);
-		content = colorMod(svg, content);
-		// fs.writeFileSync(svgPath, content);
+		// check if the file has already been cleaned
+		if (content.indexOf('<clipPath') >= 0) {
+			// TODO TODO
+			// Step. 1. Replace clipPath with defs
+			// Step. 2. There is also <!DOCTYPE svg PUBLIC... that should be remove.
+			// Step. 3. Remove clip-path="url(#state_clip_path)" and <use xlink:href="#state_outline".
+			// Step. 4. Change fill="none" to fill="white" for the main g (the one that had clip-path).
+			content = colorMod(svg, content);
+			// Step. 5. Resize width="6233.5" height="4510.9" so that height is about 1000-1200 px (this is for better SVG viewing).
+			content = whResize(svg, content);
+			fs.writeFileSync(svgPath, content);
+		}
 
 		// Create svgfile.js with the data
 		const jsContent = generateFileContent(stateName, counties);
