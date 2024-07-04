@@ -1,10 +1,10 @@
+/**
+ * Generate JS-counties files and transform SVG.
+ */
+
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
-//
-// Generate JS-counties files.
-// BTW. Automatic resize of SVG.
-//
 // const basePath = './img/todo/spec';
 const basePath = './img/todo';
 const files = fs.readdirSync(basePath);
@@ -30,18 +30,31 @@ function processSVG(basePath, svgFile) {
 		const document = dom.window.document;
 		const svg = document.querySelector('svg');
 
-		// Execute transforms
+		// county data (id)
 		const counties = findCounties(svg);
+
+		// Execute transforms
 		// check if the file has already been cleaned
 		if (content.indexOf('<clipPath') >= 0) {
-			// TODO TODO
-			// Step. 1. Replace clipPath with defs
-			// Step. 2. There is also <!DOCTYPE svg PUBLIC... that should be remove.
-			// Step. 3. Remove clip-path="url(#state_clip_path)" and <use xlink:href="#state_outline".
-			// Step. 4. Change fill="none" to fill="white" for the main g (the one that had clip-path).
+			// Step. 1. DOCTYPE is redundant.
+			content = content.replace(/<!DOCTYPE svg PUBLIC[^>]+>\s*/, '');
+
+			// Step. 2. Remove clip-path="url(#state_clip_path)" and <use xlink:href="#state_outline".
+			content = content
+				.replace(/ clip-path="[^"]+"/, '')
+				.replace(/<use[^>]+xlink:href="#state_outline"[^>]+>\s*/, '')
+			;
+
+			// Step. 3. Replace or remove clipPath
+			content = clipPathReplace(svg, content);
+
+			// Step. 4. Change fill="none" land color for the main `g` and modify highlight color
 			content = colorMod(svg, content);
+
 			// Step. 5. Resize width="6233.5" height="4510.9" so that height is about 1000-1200 px (this is for better SVG viewing).
 			content = whResize(svg, content);
+
+			// save
 			fs.writeFileSync(svgPath, content);
 		}
 
@@ -57,7 +70,7 @@ function processSVG(basePath, svgFile) {
 }
 
 /**
- * Find ids of counties while the SVG is open.
+ * Find ids of counties in the SVG.
  * Skips numeric ids. The rest should be counties.
  */
 function findCounties(svg) {
@@ -68,6 +81,38 @@ function findCounties(svg) {
 		.filter(id=>id.replace(/(path|g)?[0-9]+/, '').length>1)
 	;
 	return ids;
+}
+
+/**
+ * Replace clipPath with defs or remove it.
+ * 
+ * Note! defs can be removed if none of the ids is used outside of defs.
+ * 
+ * @param {SVGElementTagNameMap} svg element.
+ * @param {String} content File content.
+ */
+function clipPathReplace(svg, content) {
+	const hrefs = [...svg.querySelectorAll('clipPath > [id]')]
+		.map(el=>el.id)
+		.filter(id=>id!=='state_outline')
+		.map(id=>`href="#${id}"`)
+	;
+
+	let used = false;
+	for (const href of hrefs) {
+		if (content.includes(href)) {
+			used = true;
+			break;
+		}
+	}
+
+	if (used) {
+		content = content.replace(/(<\/?)clipPath[^>]*>/g, '$1defs>');
+	} else {
+		content = content.replace(/<clipPath[^>]*>[\s\S]+?<\/clipPath>/g, '');
+	}
+
+	return content;
 }
 
 /**
