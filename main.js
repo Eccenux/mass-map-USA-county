@@ -12,14 +12,14 @@ const { replaceUseHref } = require("./usa_replace");
 
 let api = new MwApi(apiUrl);
 
-// let summary = "fix rendering (remove clipping)";
-let summary = "uniform colors with good contrast";
+let summary = "fix rendering (remove clipping), uniform colors";
+// let summary = "uniform colors with good contrast";
 
 // Extra seconds needed for limits...
-// let waitSec = 8;
+let waitSec = 8;
 
 // Quick (for small-ish batches around 200 files)
-let waitSec = 0;
+// let waitSec = 0;
 
 const mapSpecs = [
 	// small
@@ -44,6 +44,13 @@ const mapSpecs = [
 
 	// complex/large
 	// "./img/Map_of_California.svg.js",
+
+	// non-trivial
+	"./img/Map_of_Louisiana.svg.js",
+	"./img/Map_of_Nevada.svg.js",
+	// large
+	"./img/Map_of_Florida.svg.js",
+	"./img/Map_of_Texas.svg.js",
 ];
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
