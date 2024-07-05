@@ -2,7 +2,7 @@ const request = require('request-promise-native');
 const fs = require('fs');
 const path = require('path');
 
-const outputPath = './img/';
+const outputPath = './img/temp/src';
 
 /**
  * Read/download API.
@@ -10,25 +10,33 @@ const outputPath = './img/';
 class MwReadApi {
 	constructor(apiUrl = 'https://commons.wikimedia.org/w/api.php') {
 		this.apiUrl = apiUrl;
+		this.headers = {
+			'User-Agent': 'MassMapFix/0.0 (User:Nux)',
+		}
 	}
 
 	/** Download all files in a acategory. */
 	async processCategory(category, filter = false) {
+		let fileTitles;
 		try {
-			let fileTitles = await this.fetchCategoryMembers(category);
+			fileTitles = await this.fetchCategoryMembers(category);
 			console.log(`Found ${fileTitles.length} files in the category.`);
 			if (filter) {
 				fileTitles = fileTitles.filter(filter);
 			}
-
-			let imageUrls = await this.fetchImageUrl(fileTitles);
-			for (const imageUrl of imageUrls) {
-				const filename = imageUrl.replace(/.+\//, '');
-				console.log(`Downloading ${filename}.`);
-				await this.downloadImage(imageUrl, filename);
-			}
 		} catch (error) {
 			console.error('Error processing category:', error);
+		}
+
+		let imageUrls = await this.fetchImageUrl(fileTitles);
+		for (const imageUrl of imageUrls) {
+			const filename = imageUrl.replace(/.+\//, '');
+			console.log(`Downloading ${filename}.`);
+			try {
+				await this.downloadImage(imageUrl, filename);
+			} catch (error) {
+				console.error(`Error downloading ${filename}:\n`, error);
+			}
 		}
 	}
 
@@ -44,7 +52,7 @@ class MwReadApi {
 		};
 
 		try {
-			const response = await request({ uri: this.apiUrl, qs: params, json: true });
+			const response = await request({ uri: this.apiUrl, qs: params, json: true, headers: this.headers });
 			return response.query.categorymembers.map(member => member.title);
 		} catch (error) {
 			console.error('Error fetching category members:', error);
@@ -78,7 +86,7 @@ class MwReadApi {
 		for (const titles of chunks) {
 			try {
 				params['titles'] = titles.join('|');
-				const response = await request({ uri: this.apiUrl, qs: params, json: true });
+				const response = await request({ uri: this.apiUrl, qs: params, json: true, headers: this.headers });
 				const pages = response.query.pages;
 				const urls = Object.values(pages).map(page=>page.imageinfo[0].url);
 				all.push(...urls);
@@ -92,7 +100,7 @@ class MwReadApi {
 
 	async downloadImage(url, filename) {
 		try {
-			const image = await request({ uri: url, encoding: null });
+			const image = await request({ uri: url, encoding: null, headers: this.headers });
 			fs.writeFileSync(path.join(outputPath, filename), image);
 			console.log(`Image ${filename} downloaded successfully.`);
 		} catch (error) {
