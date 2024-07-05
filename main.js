@@ -157,11 +157,16 @@ async function run(options, waitSec = 8) {
 				missing.push({id, destFileName});
 			}
 		} catch (ex) {
-			console.error(`Unable to upload File:${destFileName}.`, ex);
-			error.push({id, destFileName});
-			await sleep(30); // extra
-			// Upon error stop (at least for now).
-			// break;
+			if (ex.code && ex.code === 'fileexists-no-change') {
+				console.log(`File was already uploaded as: ${destFileName}.`);
+				done.push({id, destFileName});
+			} else {
+				console.error(`Unable to upload File:${destFileName}.`, ex);
+				error.push({id, destFileName});
+				await sleep(30); // extra
+				// Upon error stop (at least for now).
+				// break;
+			}
 		}
 		await sleep(waitSec);
 	}
@@ -176,21 +181,21 @@ async function run(options, waitSec = 8) {
 	return results;
 }
 
+function formatArray(arr) {
+	return JSON.stringify(arr)
+		.replace(/(\},|\[)/g, '$1\n\t')
+		.replace('}]', '}\n];\n')
+	;
+}
 function info(results, verbose=true) {
 	let {done, missing, error, other} = results;
 
 	// Finally dump list of missing files.
 	if (verbose && missing.length) {
-		console.warn("Missing:");
-		missing.forEach((item) => {
-			console.warn(item);
-		});
+		console.warn("var missing = " + formatArray(missing));
 	}
 	if (verbose && error.length) {
-		console.warn("Error:");
-		error.forEach((item) => {
-			console.error(item);
-		});
+		console.error("var error = " + formatArray(error));
 	}
 	// Show stats: missing count, uploaded count.
 	console.info(`Uploaded: ${done}; missing: ${missing.length}; other: ${other}`);
