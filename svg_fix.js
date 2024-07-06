@@ -6,7 +6,7 @@
  * Use for an auto-fix attemp (doesn't work when clipPath has transforms):
  * fixCliping(.);
  * 
- * Use for non-standard clipping (a sterter point for an Inkscape fix):
+ * Use for non-standard clipping (a starter point for an Inkscape fix):
  * prepareReCliping(.);
  */
 
@@ -52,8 +52,9 @@ function processSVG(baseSrcPath, svgFile, baseDstPath = destPath) {
 			svg.prepend(defs);
 		}
 
-		// move clip to defs
+		//move clip to defs (auto-fix)
 		// fixCliping(document, defs);
+		//starter point for an Inkscape fix
 		prepareReCliping(document);
 
 		// color
