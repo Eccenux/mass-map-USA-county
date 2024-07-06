@@ -65,7 +65,7 @@ async function run(svgFiles, waitSec = 8) {
 	let error = [];
 	const startTime = Date.now();
 	for (const svgFile of svgFiles) {
-		let destFileName = svgFile;
+		let destFileName = decodeURIComponent(svgFile);
 		let id = '-';
 		try {
 			// If exists upload a new version
