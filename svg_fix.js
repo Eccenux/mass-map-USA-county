@@ -80,8 +80,8 @@ function saveAsSvg(dstPath, document) {
  */
 function fixCliping(document, defs) {
 	// Get clipPath tag and change node name to "g"
-	const clipPath = document.querySelector('clipPath');
-	if (clipPath) {
+	const clipPaths = document.querySelectorAll('clipPath');
+	for (const clipPath of clipPaths) {
 		const g = document.createElement('g');
 		g.id = clipPath.id;
 		// Move all children of clipPath to the new g element
