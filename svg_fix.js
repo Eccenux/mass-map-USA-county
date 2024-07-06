@@ -2,6 +2,12 @@
  * Simple fix of the clipPath problem.
  * 
  * Doesn't do much of optimization and UX transforms done in `svg_finalize.js`.
+ * 
+ * Use for an auto-fix attemp (doesn't work when clipPath has transforms):
+ * fixCliping(.);
+ * 
+ * Use for non-standard clipping (a sterter point for an Inkscape fix):
+ * prepareReCliping(.);
  */
 
 const fs = require('fs');
@@ -27,26 +33,28 @@ function processSVG(baseSrcPath, svgFile, baseDstPath = destPath) {
 		// Read the content of each SVG file
 		let content = fs.readFileSync(srcPath, 'utf8');
 
-		// check if the file has already been cleaned
-		if (content.indexOf('<clipPath') < 0) {
-			console.log(`NOP ${svgFile}`);
-			return;
-		}
-
 		// DOM
 		const dom = new JSDOM(content);
 		const document = dom.window.document;
-		const svg = document.querySelector('svg');
+
+		// make sure we have a problem
+		if (!document.querySelector('clipPath g')) {
+			console.log(`NOP ${svgFile}`);
+			fs.copyFileSync(srcPath, dstPath);
+			return;
+		}
 
 		// find/create defs
 		let defs = document.querySelector('defs');
 		if (!defs) {
+			const svg = document.querySelector('svg');
 			defs = document.createElement('defs');
 			svg.prepend(defs);
 		}
 
 		// move clip to defs
-		fixCliping(document, defs);
+		// fixCliping(document, defs);
+		prepareReCliping(document);
 
 		// color
 		colorMod(document);
@@ -94,6 +102,39 @@ function fixCliping(document, defs) {
 	}
 }
 
+/**
+ * Preapre for re-clipping in Inkscape.
+ * 
+ * When clipPath has transforms inside it might need resize in Inkscape.
+ * Merge to one path, resize.
+ * 
+ * @param {Document} document 
+ * @param {HTMLElement} defs 
+ */
+function prepareReCliping(document) {
+	const svg = document.querySelector('svg');
+
+	const clipPaths = document.querySelectorAll('clipPath');
+	for (const clipPath of clipPaths) {
+		const g = document.createElement('g');
+		// g.id = clipPath.id;
+		g.id = 'post-clipPath-'+clipPath.id;
+
+		// Move all children of clipPath to the new g element
+		const children = clipPath.querySelectorAll(':not(g)');
+		for (const child of children) {
+			const indent = document.createTextNode('\n\t');
+			g.appendChild(indent);
+			g.appendChild(child);
+		}
+		g.appendChild(document.createTextNode('\n'));
+
+		// Append to the end
+		svg.appendChild(g);
+
+		clipPath.remove();
+	}
+}
 /**
  * New colors of tiles.
  * @param {Document} document 
