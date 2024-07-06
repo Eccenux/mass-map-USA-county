@@ -23,11 +23,13 @@ npm install
 
 ## Usage
 
-To use the application, simply run:
+To use the application, simply run one of scripts like so:
 
 ```bash
 node main.js
 ```
+
+Note! Remember to prepare the configuration first and execute the scripts in the correct order.
 
 ## Configuration
 
@@ -45,6 +47,8 @@ module.exports = {
 ```
 
 ## Project Structure
+
+Structure and sequence of operations (order in which you should execute the scripts).
 
 ### USA Maps of counties
 SVG from categories like:
