@@ -13,8 +13,9 @@ let api = new MwApi(apiUrl);
 // /---- Settings ----
 const basePath = './img/temp/final';
 
-let summary = "fix rendering (remove clipping), uniform colors";
+// let summary = "fix rendering (remove clipping), uniform colors";
 // let summary = "uniform colors with good contrast";
+let summary = "fix rendering (clipping with groups)";
 
 // Extra seconds needed for limits...
 let waitSec = 8;
