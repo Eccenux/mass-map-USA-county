@@ -46,8 +46,30 @@ module.exports = {
 
 ## Project Structure
 
-- **main.js**: The main entry point of the application.
-- **config.js**: Configuration file for user credentials.
+### USA Maps of counties
+SVG from categories like:
+https://commons.wikimedia.org/wiki/Category:Locator_maps_of_counties_of_Wisconsin
+
+The maps have a specific strucuture in which you can automate uploads as long as names are something like:
+`Map of Wisconsin highlighting Adams County.svg`
+So:
+`Map of ${State} highlighting ${CountyId} County.svg`
+
+- **main_prepare.js**: Prepare mass upload based on one of downloaded map of a county.
+- **main.js**: Mass upload using a list of `CountyId` (array of strings).
+	Can use a more specific mapping like this:
+	```json
+	{id: 'Saint_Johns', destFileName: 'Map of Florida highlighting St. Johns County.svg'},
+	```
+- **bot.config.js**: Configuration file for user credentials (for upload).
+
+### Generic SVG fixer
+
+A more generic fixer that just move a clip-path tag to definitions (`<clipPath>` into `<defs>`).
+
+- **svg_download.js**: Download a category. Filters to only download SVG files.
+- **svg_fix.js**: Mass fix downloaded files. It does try to apply map colors, but it should work for non-map SVG too.
+- **svg_fixed_upload.js**: Mass upload of fixed files.
 
 ## Author
 

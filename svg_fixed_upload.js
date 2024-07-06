@@ -1,7 +1,7 @@
 /**
  * Upload multiple, fixed SVG files.
  */
-const { MwApi } = require("./mw-api");
+const { MwApi } = require('./lib/mw-api');
 const fs = require('fs');
 const path = require('path');
 

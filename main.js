@@ -3,12 +3,12 @@
  * 
  * This assumes you can highlight an element by id.
  */
-const { MwApi } = require("./mw-api");
+const { MwApi } = require('./lib/mw-api');
 
 const apiUrl = 'https://commons.wikimedia.org/w/api.php';
 const { USERNAME, PASSWORD } = require('./bot.config');
 // let { counties, destFileTemplate, srcFilePath } = require("./img/usa_ids");
-const { replaceUseHref } = require("./usa_replace");
+const { replaceUseHref } = require("./lib/usa_replace");
 
 let api = new MwApi(apiUrl);
 
@@ -21,6 +21,7 @@ let waitSec = 8;
 // Quick (for small-ish batches around 200 files)
 // let waitSec = 0;
 
+//map specs from `main_prepare`
 const mapSpecs = [
 	// small
 	// "./img/Map_of_Connecticut.svg.js",
@@ -54,6 +55,7 @@ const mapSpecs = [
 	// varints
 	"./img/Map_of_Virginia.svg.js",
 ];
+//manual re-try missing (with non-standard names)
 // let extraMapping = {
 // 	"./img/Map_of_Missouri.svg.js": [
 // 		{id: 'Saint_Louis_City', 		destFileName: 'Map of Missouri highlighting Saint Louis City.svg'},
