@@ -12,8 +12,9 @@ const { replaceUseHref } = require("./lib/usa_replace");
 
 let api = new MwApi(apiUrl);
 
-let summary = "fix rendering (remove clipping), uniform colors";
+//let summary = "fix rendering (remove clipping), uniform colors";
 // let summary = "uniform colors with good contrast";
+let summary = "cleanup errors";
 
 // Extra seconds needed for limits...
 let waitSec = 8;
