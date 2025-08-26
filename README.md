@@ -21,16 +21,6 @@ To install the necessary dependencies, run the following command:
 npm install
 ```
 
-## Usage
-
-To use the application, simply run one of scripts like so:
-
-```bash
-node main.js
-```
-
-Note! Remember to prepare the configuration first and execute the scripts in the correct order.
-
 ## Configuration
 
 To configure the application, you need to set up your credentials.
@@ -45,6 +35,16 @@ module.exports = {
 	PASSWORD,
 };
 ```
+
+## Usage
+
+To use the application, simply run one of scripts like so:
+
+```bash
+node main.js
+```
+
+Note! Remember to prepare the configuration first and execute the scripts in the correct order.
 
 ## Project Structure
 
