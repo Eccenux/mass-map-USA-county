@@ -116,6 +116,7 @@ async function auth() {
 		await api.login(USERNAME, PASSWORD);
 	} catch (ex) {
 		console.error('Auth error.', ex);
+		throw new Error("Auth failed");
 	}
 }
 
