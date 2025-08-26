@@ -41,7 +41,7 @@ const mapSpecs = [
 	// "./img/Map_of_South_Dakota.svg.js",
 
 	// complex mapping
-	// "./img/Map_of_Alaska.svg.js",
+	"./img/Map_of_Alaska.svg.js",
 
 	// complex/large
 	// "./img/Map_of_California.svg.js",
@@ -53,7 +53,7 @@ const mapSpecs = [
 	// "./img/Map_of_Florida.svg.js",
 	// "./img/Map_of_Texas.svg.js",
 	// varints
-	"./img/Map_of_Virginia.svg.js",
+	// "./img/Map_of_Virginia.svg.js",
 ];
 //manual re-try missing (with non-standard names)
 // let extraMapping = {
